@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container  max-w-4xl mx-auto">
+    <div class="blog">
+    <div class="card shadow-lg border-2 rounded-lg mt-0 mb-3">
+        <div class="card-header text-center">
+            <h3 class="font-light my-4">Read history</h3>
+        </div>
+        {% for blog in read_history %}
+            <a class="block p-4 hover:bg-gray-100" href="{% url 'post_detail' blog.id %}">
+                <div class="header_and_image border-b border-gray-300">
+                    <h3 class="text-lg font-semibold">{{ blog.title }}</h3>
+                </div>
+            </a>
+            <ul class="mt-2">
+                <li>
+                    <a class="col-md-4 btn btn-red bg-red-600 text-white py-2 px-4 ml-2 rounded hover:bg-red-700" href="{% url 'delete_read_history' blog.id %}">DELETE</a>
+                </li>
+            </ul>
+        
+            <hr class="my-4">
+        {% endfor %}
+    </div>
+    </div>
+</div>
+
+{% endblock %}

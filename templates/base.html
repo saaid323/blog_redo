@@ -1,0 +1,26 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    {% tailwind_css %}
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+    {% block header %}{% endblock %}
+</head>
+<body class="bg-gray-50 font-serif leading-normal tracking-normal">
+    {% include 'navbar.html' %}
+    <main class="container mx-auto mt-4 p-4">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.js"></script>
+    <script>
+        document.body.addEventListener('htmx:configRequest', (event) => {
+        event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    });
+    </script>
+</body>
+</html>

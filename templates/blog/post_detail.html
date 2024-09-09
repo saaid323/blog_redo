@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <article class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="p-8">
+            <h1 class="text-3xl font-bold mb-4 text-gray-800">{{ post.title }}</h1>
+            <p class="text-gray-600 mb-6">{{ post.created_date|date:"F d, Y" }}</p>
+            <div class="max-w-4xl mx-auto prose prose-lg text-gray-700">
+                {{ post.content | safe }}
+            </div>
+        </div>
+    </article>
+
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl p-6">
+        <form hx-post="{% url 'create_comment' post.id %}" hx-target="#comment" method="post">
+            {% csrf_token %}
+            <div class="mb-6">
+                <label for="{{ form.content.id_for_label }}">{{ form.content.label }}</label>
+                <textarea
+                    name="{{ form.content.name }}"
+                    id="{{ form.content.id_for_label }}"
+                    class="form-control content"
+                    rows="2"
+                    placeholder="Type your comment here"
+                >{{ form.content.value }}</textarea>
+                <div id="can_comment_error">
+                    {% if error %}
+                    <p class="text-red-500">{{ error }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        
+            <div class="mb-4">
+                <button type="submit" 
+                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    Submit
+                </button>
+            </div>
+        </form>
+        
+
+        <div class="mb-6" id="comment">
+            <H1>Comments</H1>
+                <article>
+                {% include "partials/comments.html" with id=post.id %}
+                </article>
+        </div>
+    </div>
+    
+    <div class="mt-8">
+        <a href="{% url 'post_list' %}"
+           class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300">
+            ← Back to all posts
+        </a>
+    </div>
+</div>
+<script>
+    document.body.addEventListener('htmx:afterRequest', (event) => {
+        document.querySelector("textarea.content").value = '';
+    });
+</script>
+
+</script>
+{% endblock %}

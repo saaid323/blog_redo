@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h3 class="text-2xl font-semibold mb-4">Edit Your Profile</h3>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        <div class="space-y-2">
+            <label class="block">Username:</label>
+            {{ user_form.username }}
+            <label class="block">First Name:</label>
+            {{ user_form.first_name }}
+            <label class="block">Last Name:</label>
+            {{ user_form.last_name }}
+            <label class="block">Email:</label>
+            {{ user_form.email }}
+        </div>
+        <div class="border-t border-gray-300 pt-4">
+            <label class="block">Change Profile Picture:</label>
+            {{ profile_form.profile_pic }}
+        </div>
+        <div class="space-y-2">
+            <label class="block">Bio:</label>
+            {{ profile_form.bio }}
+        </div>
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Save Changes</button>
+        <span></span>
+        <a href="{% url 'author_profile' %}" class="text-blue-500 hover:underline">Back</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% for comment in comments %}
+
+<div class="flex items-start mb-4 p-4 border-b border-gray-200">
+
+    <div>
+        <img class="w-10 h-10 rounded-full mr-3" src="{{ comment.post.author.profile_pic.url }}" alt="">
+        <p class="font-semibold text-gray-800">{{ comment.author.username }} <span class="text-gray-500 text-sm">{{ comment.created_at | timesince }}</span></p>
+        <p class="text-gray-700">{{ comment.content }}</p>
+        {% if comment.author == request.user %}
+        <a 
+        href="#" 
+        class="text-sky-600 hover:text-sky-900"
+        hx-delete="{% url 'delete_comment' comment.id %}"
+        hx-confirm="Are you sure?"
+        hx-target="closest div"
+    >
+        Delete
+    </a>
+        {% endif %}
+    </div>
+</div>
+
+{% endfor %}
